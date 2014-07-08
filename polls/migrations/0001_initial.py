@@ -16,46 +16,52 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'polls', ['Poll'])
 
-        # Adding model 'Choice1'
-        db.create_table(u'polls_choice1', (
+        # Adding model 'Choice'
+        db.create_table(u'polls_choice', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('poll', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['polls.Poll'])),
+            ('text', self.gf('django.db.models.fields.TextField')(max_length=45)),
             ('votes', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
-        db.send_create_signal(u'polls', ['Choice1'])
+        db.send_create_signal(u'polls', ['Choice'])
 
-        # Adding model 'Choice2'
-        db.create_table(u'polls_choice2', (
+        # Adding model 'Comment'
+        db.create_table(u'polls_comment', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('poll', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['polls.Poll'])),
-            ('votes', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('comment', self.gf('django.db.models.fields.TextField')(max_length=300)),
+            ('post_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('latest', self.gf('django.db.models.fields.BooleanField')()),
         ))
-        db.send_create_signal(u'polls', ['Choice2'])
+        db.send_create_signal(u'polls', ['Comment'])
 
 
     def backwards(self, orm):
         # Deleting model 'Poll'
         db.delete_table(u'polls_poll')
 
-        # Deleting model 'Choice1'
-        db.delete_table(u'polls_choice1')
+        # Deleting model 'Choice'
+        db.delete_table(u'polls_choice')
 
-        # Deleting model 'Choice2'
-        db.delete_table(u'polls_choice2')
+        # Deleting model 'Comment'
+        db.delete_table(u'polls_comment')
 
 
     models = {
-        u'polls.choice1': {
-            'Meta': {'object_name': 'Choice1'},
+        u'polls.choice': {
+            'Meta': {'object_name': 'Choice'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'poll': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['polls.Poll']"}),
+            'text': ('django.db.models.fields.TextField', [], {'max_length': '45'}),
             'votes': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
-        u'polls.choice2': {
-            'Meta': {'object_name': 'Choice2'},
+        u'polls.comment': {
+            'Meta': {'object_name': 'Comment'},
+            'comment': ('django.db.models.fields.TextField', [], {'max_length': '300'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'latest': ('django.db.models.fields.BooleanField', [], {}),
             'poll': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['polls.Poll']"}),
-            'votes': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+            'post_date': ('django.db.models.fields.DateTimeField', [], {})
         },
         u'polls.poll': {
             'Meta': {'object_name': 'Poll'},

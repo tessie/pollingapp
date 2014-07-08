@@ -9,28 +9,23 @@ class Poll(models.Model):
         return self.question
 
 
-class Choice1(models.Model):
+class Choice(models.Model):
     poll = models.ForeignKey(Poll)
-    text = "Yes you are the only one"
+    text = models.TextField(max_length=45)
     votes = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.text
 
 
-class Choice2(models.Model):
-    poll = models.ForeignKey(Poll)
-    text = "No you are not the only one"
-    votes = models.IntegerField(default=0)
-
-    def __unicode__(self):
-        return self.text
 
 
 class Comment(models.Model):
     poll = models.ForeignKey(Poll)
     comment = models.TextField(max_length=300)
     post_date = models.DateTimeField()
+    latest = models.BooleanField()
+
 
     def __unicode__(self):
         return self.comment
